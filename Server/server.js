@@ -2,6 +2,7 @@ const express = require('express');
 require('dotenv').config()
 const { DBConnection } = require('../database/config');
 const cors = require('cors');
+const { crearCoordenada } = require('../controladores/coordenada');
 
 class Server {
     constructor() {
@@ -38,7 +39,9 @@ class Server {
      }
     listen() {
         this.server.listen(this.port, () => {
-            console.log('Servidor corriendo en puerto', this.port);
+            console.log(
+                `Servidor corriendo en puerto ${this.port}`
+            );
         });
     }
     async conectarDB() {
@@ -47,13 +50,23 @@ class Server {
 
     sockets() {
         this.io.on('connection', socket => {
-        console.log('cambio coordenada', socket.id);
-        socket.on('cambio-coordenada', (payload) => {
-        console.log('cordenada cambiada');
-            })
-        });
-    }
+        const id = socket.handshake.query.id; // Obtener el ID de la consulta
+        const randomNumber1 = socket.handshake.query.x;
+        const randomNumber2 = socket.handshake.query.y;
+      
+          console.log(`Conexión establecida con ID: ${id}`);
+  
+          console.log('Número aleatorio 1:', randomNumber1);
+          console.log('Número aleatorio 2:', randomNumber2);
 
+          //crear cordenada
+          crearCoordenada({ randomNumber1,randomNumber2, id });
+      
+          socket.on('cambio-coordenada', payload => {
+            console.log('Coordenada cambiada');
+          });
+        });
+      }
 }
 
 module.exports = Server;

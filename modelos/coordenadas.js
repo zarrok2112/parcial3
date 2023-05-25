@@ -13,20 +13,6 @@ const CoordenadaSchema = Schema({
         type:Number,
         required:[true,"el pedido es obligatorio"]
     }
-},{
-    toJSON: {
-        virtuals: true,
-    },
-    toObject: {
-        virtuals: true,
-    }
-})
-
-CoordenadaSchema.virtual('pedidos',{
-    ref:'pedidos',
-    localField:'pedidos_id',
-    foreignField:'id',
-    justOne:false,
-})
+},)
 
 module.exports = model("coordnadas",CoordenadaSchema)

@@ -3,7 +3,8 @@ const {Schema,model} = require('mongoose');
 const PedidosSchema = Schema({
     id:{
         type:Number,
-        required:[true,"el id es obligatorio"]
+        required:[true,"el id es obligatorio"],
+        unique:true
     },
     fecha:{
         type:Date,
@@ -11,14 +12,7 @@ const PedidosSchema = Schema({
         
     },
 
-},{
-    toJSON: {
-        virtuals: true,
-    },
-    toObject: {
-        virtuals: true,
-    }
-})
+},)
 
 
 module.exports = model("pedidos",PedidosSchema)
